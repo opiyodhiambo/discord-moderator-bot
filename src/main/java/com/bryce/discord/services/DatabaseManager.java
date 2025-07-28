@@ -8,8 +8,12 @@ import java.sql.Statement;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class DatabaseManager {
+
+
     private static final Dotenv dotenv = Dotenv.load();
     private static final String URL = dotenv.get("DATABASE_PATH");
+
+
     private static final ReentrantLock lock = new ReentrantLock();
     private static volatile boolean isInitialized = false;
 
@@ -19,20 +23,7 @@ public class DatabaseManager {
             initializeDatabase();
         }
 
-        Connection conn = DriverManager.getConnection(URL);
-
-        try (Statement stmt = conn.createStatement()) {
-            stmt.execute("PRAGMA busy_timeout = 30000");
-            stmt.execute("PRAGMA journal_mode = WAL");
-            stmt.execute("PRAGMA synchronous = NORMAL");
-            stmt.execute("PRAGMA cache_size = 10000");
-            stmt.execute("PRAGMA temp_store = memory");
-        } catch (SQLException e) {
-            System.err.println("[DatabaseManager] Warning: Could not set PRAGMA settings: " + e.getMessage());
-
-        }
-
-        return conn;
+        return DriverManager.getConnection(URL);
     }
 
     private static void initializeDatabase() {

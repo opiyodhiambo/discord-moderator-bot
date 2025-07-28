@@ -15,23 +15,23 @@ public class DatabaseInitializer {
         try (Connection conn = DatabaseManager.getConnection()) {
 
             String warningsTable = "CREATE TABLE IF NOT EXISTS warnings (" +
-                    "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "id SERIAL PRIMARY KEY," +
                     "userId TEXT NOT NULL," +
                     "moderatorId TEXT," +
                     "reason TEXT," +
-                    "timestamp INTEGER" +
+                    "timestamp BIGINT" +
                     ")";
 
             String analyticsTable = "CREATE TABLE IF NOT EXISTS moderation_analytics (" +
-                    "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "id SERIAL PRIMARY KEY," +
                     "action TEXT NOT NULL," +
                     "moderatorId TEXT," +
                     "moderatorName TEXT," +
                     "targetId TEXT," +
                     "targetName TEXT," +
                     "reason TEXT," +
-                    "timestamp INTEGER," +
-                    "duration INTEGER," +
+                    "timestamp BIGINT," +
+                    "duration BIGINT," +
                     "count INTEGER" +
                     ")";
 
@@ -43,15 +43,15 @@ public class DatabaseInitializer {
             String guildsTable = "CREATE TABLE IF NOT EXISTS guilds (" +
                     "guildId TEXT PRIMARY KEY," +
                     "guildName TEXT," +
-                    "joinedTimestamp INTEGER" +
+                    "joinedTimestamp BIGINT" +
                     ")";
 
             String commandLogsTable = "CREATE TABLE IF NOT EXISTS command_logs (" +
-                    "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "id SERIAL PRIMARY KEY," +
                     "userId TEXT," +
                     "userName TEXT," +
                     "commandName TEXT," +
-                    "timestamp INTEGER" +
+                    "timestamp BIGINT" +
                     ")";
 
             conn.createStatement().execute(warningsTable);
